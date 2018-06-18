@@ -49,9 +49,9 @@ section.has-dark-background {
 @import "../template/theme";
 // ---------------------------------------------
 
-.slide-background:not(.overview), .overview.section {
+.slide-background:not(.overview):not(.stack), .overview.section {
 	background-image: url(../../lib/img/Cofinpro_logo.svg);
-	background-size: 20%;
+	background-size: 15%;
 	background-repeat: no-repeat;
 	background-position: 95% 5%;
 }

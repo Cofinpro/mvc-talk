@@ -1,51 +1,240 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/cofinpro.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/cofinpro.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/atom-one-light.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Printing and PDF exports -->
+    <script>
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>Server-side Frontends mit MVC 1.0</h2>
+            <p>Gregor Tudan - @cofinpro_greg</p>
+        </section>
+        <section>
+            <section>
+                <blockquote>Elephant im Raum: sind Frontends vom Server nicht tot?</blockquote>
+            </section>
+            <section>
+                <blockquote>Aber wir haben doch JSF und JSP!</blockquote>
+            </section>
+            <section>
+                <h2>Action vs. Component Based</h2>
+                <figure>
+                    <img src="lib/img/component-oriented-vs-action-oriented.png">
+                    <figcaption>
+                        <small><a href="https://blogs.oracle.com/theaquarium/why-another-mvc-framework-in-java-ee-8">Quelle: Oracle</a></small>
+                    </figcaption>
+                </figure>
+            </section>
+            <section>
+                <blockquote>Dann nimm doch Play, Spring MVC oder Struts!</blockquote>
+            </section>
+            <section>
+                <h2>Ziele von MVC</h2>
+                <ol>
+                    <li>Aufsetzen auf existierende Java-EE Technologien</li>
+                    <li><em>Basisfunktionen</em> zum Bauen von MVC-Applications</li>
+                    <li>JAX-RS als Matching- & Binding-Layer</li>
+                    <li>Support für JSP und Facelets als View-Languages</li>
+                </ol>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h1>Die kurze Version der Geschichte</h1>
+            </section>
+            <section>
+                <h2>2014</h2>
+                <ul>
+                    <li><a href="https://jcp.org/en/jsr/detail?id=371">JSR 371</a> wird vorgestellt</li>
+                    <li>Referenzimplementierung "Ozark"</li>
+                    <li>Community Ballot: MVC auf Platz 5 der gewünschten Features für JavaEE8</li>
+                </ul>
+            </section>
+            <section data-background-image="lib/img/weeds.gif" data-background-size="cover">
+                <h1>2015</h1>
+            </section>
+            <section><h2>2016</h2>
+                <ul>
+                    <li>JavaOne: Community-Umfrage zu JavaEE 8
+                    <li>MVC: Platz 21</li>
+                    <li>wird aus JavaEE 8 gestrichen</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Januar 2017</h2>
+                <blockquote>
+                    <small>Die Community soll's richten</small>
+                    <br>
+                    <p>Java EE ohne MVC: Oracle überträgt JSR 371 an die Community</p>
+                    <footer>
+                        <cite><a href="https://jaxenter.de/java-ee-mvc-51764">Jax-Center</a></cite>
+                    </footer>
+                </blockquote>
+            </section>
+            <section>
+                <h2>2017</h2>
+                <ul>
+                    <li>Oracle übergibt JavaEE an Eclipse</li>
+                    <li>aus JavaEE wird EE4J</li>
+                    <li>MVC-Spec und Ozark wechseln zur Eclipse Foundation</li>
+                </ul>
+            </section>
+            <section>
+                <h2>2018</h2>
+                <ul>
+                    <li>JSR 371 wird verabschiedet</li>
+                    <li>Ozark soll umbenannt werden</li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <section>
+                Schluss jetzt! Zeig mir Code!
+            </section>
+            <section>
+                <h2>Controller sind REST-Endpunkte</h2>
+                <pre><code data-trim>
+@Path("/")
+@javax.mvc.Controller
+public class Controller {
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+    @GET
+    public String view(String name) {
+        return "hello.html";
+    }
+}
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-                backgroundTransition: 'convex',
-                transition: 'convex',
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+                </code></pre>
+            </section>
+            <section>
+                <h2>Model Binding</h2>
+                <pre><code data-trim>
+@Path("/")
+@javax.mvc.Controller
+public class Controller {
+
+    @Inject
+    private Models model;
+
+    @GET
+    public String view(@QueryParam("name") String name) {
+        model.put("name", name);
+        return "hello.html";
+    }
+}
+
+                </code></pre>
+            </section>
+            <section>
+                <h2>Templates</h2>
+                <pre><code data-trim>
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Hello World&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello ${name}&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+              </code></pre>
+            </section>
+        </section>
+        <section>
+            <h2>Template Engines</h2>
+            <ul>
+                <li>Java-Server-Pages</li>
+                <li>Facelets (hello JSF-Developers!)</li>
+                <li>Thymeleaf</li>
+                <li>Handlebars</li>
+                <li>AsciiDoc</li>
+                <li>...</li>
+            </ul>
+        </section>
+        <section>
+            <h2>weitere Features</h2>
+            <ul>
+                <li>Validation</li>
+                <li>Internationalization</li>
+                <li>Exception Mappers & Error Bindings</li>
+                <li>Cross-site Request Forgery Protection</li>
+                <li>XSS-Escaping</li>
+                <li>Redirect-Handling</li>
+                <li>Events</li>
+                <li>URL-Resolving</li>
+            </ul>
+        </section>
+        <section>
+            <section>
+                <h2>Wo kann ich das benutzen?</h2>
+                <ul>
+                    <li>JAX-RS Extension
+                        <ul>
+                            <li>Jersey, Resteasy & CXF</li>
+                        </ul>
+                    </li>
+                    <li>Wildfly-Extension</li>
+                    <li>Thorntail/WF-Swarm-Fraction</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Getting started</h2>
+                <ul>
+                    <li><a href="http://mvc-spec.org/learn">MVC-Spec.org/learn</a></li>
+                    <li><a href="http://wildfly-swarm.io">Wildfly-Swarm</a></li>
+                </ul>
+            </section>
+            <section>
+                <h2>Contribute!</h2>
+            </section>
+        </section>
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        backgroundTransition: 'convex',
+        transition: 'convex',
+        history: true,
+        keyboard: {
+            // Customization for my spotlight
+            39: 'next', // Right Arrow
+            37: 'prev'  // Left Arrow
+        },
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+</script>
+</body>
 </html>
